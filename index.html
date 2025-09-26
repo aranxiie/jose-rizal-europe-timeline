@@ -42,7 +42,7 @@
     .details{flex-grow: 1; overflow-y: auto; margin-top: 16px; padding-right: 10px;}
     .details h2{margin: 12px 0 4px; font-size: 18px;}
     .details .meta{color:var(--muted);font-size:13px; margin-bottom: 12px;}
-    .details .body-text{line-height: 1.6; font-size: 15px;}
+    .details .body-text{line-height: 1.6; font-size: 15px; white-space: pre-wrap;}
     .details .sources{margin-top:16px;font-size:12px;color:var(--muted);border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px;}
     .details .sources a{color: var(--accent); text-decoration: none;}
     .details .sources a:hover{text-decoration: underline;}
@@ -73,7 +73,6 @@
     .pin.active .pin-circle{fill: var(--accent); r: calc(var(--pin-size-active) / 2); filter: drop-shadow(0 0 8px var(--accent));}
     .pin.active .pin-pulse{display: none;}
     .pin-year{fill: var(--text); font-size: 9px; font-weight: bold; text-anchor: middle; alignment-baseline: central; pointer-events: none;}
-    footer{grid-column:1 / -1;color:var(--muted);font-size:12px;text-align:center;padding:16px 0;}
 
     @media (max-width:900px){
       body{overflow: auto;}
@@ -89,7 +88,7 @@
     <header class="card">
       <div>
         <h1>José Rizal — Europe Timeline</h1>
-        <p>An interactive map of Rizal's ten-year journey (1882–1892), from his departure from Manila to his pivotal years in Europe. Click any pin to explore events.</p>
+        <p>A timeline of Rizal's ten-year journey (1882–1892), from his departure from Manila to his years in Europe. Click any pin to explore events.</p>
         <div class="controls">
           <button class="btn" id="first">First</button>
           <button class="btn" id="prev">‹ Prev</button>
@@ -101,7 +100,7 @@
       <div class="details" id="details">
         <h2 id="d-title">Select an event</h2>
         <div class="meta" id="d-sub"></div>
-        <p class="body-text" id="d-body">Click any numbered pin on the map to view the details here. The timeline covers Rizal's studies, publications, and key milestones.</p>
+        <p class="body-text" id="d-body">Click any numbered pin on the map to view the details here.</p>
         <div class="sources" id="d-sources"></div>
       </div>
     </header>
@@ -114,18 +113,42 @@
 
   <script>
     const events = [
-      { id:1, year:1882, date:'May 3, 1882', place:'Manila', coords: {x:88, y:80}, title:'Departure from Manila', summary:'Left Manila aboard the Salvadora, keeping his departure secret from Spanish authorities.', details:'Rizal departed secretly on May 3, 1882, bound for Spain. This marked the beginning of his decade-long European journey focused on education, medical specialization, and reform writing.', sources:['https://travels-of-rizal.weebly.com/','https://philembassymadrid.com/rizals-madrid'] },
-      { id:2, year:1882, date:'June 15, 1882', place:'Barcelona', coords: {x:48, y:52}, title:'Arrival in Barcelona; Amor Patrio', summary:'Arrived in Barcelona; wrote "Amor Patrio", his first article published in Diariong Tagalog.', details:'On June 15, Rizal reached Barcelona and soon after moved to Madrid to enroll at Universidad Central. He wrote the patriotic essay "Amor Patrio" and began connecting with Filipino reformists.', sources:['https://travels-of-rizal.weebly.com/'] },
-      { id:3, year:1883, date:'1883', place:'Madrid', coords: {x:44, y:54}, title:'Student life in Madrid', summary:'Continued studies in Medicine and Philosophy, learned French, and took short trips to Paris.', details:'Rizal studied medicine and philosophy and letters, wrote essays and poems, and expanded his language skills — including French — taking short trips during breaks to Paris.', sources:['https://travels-of-rizal.weebly.com/'] },
-      { id:4, year:1884, date:'1884', place:'Madrid', coords: {x:44.2, y:54.2}, title:'Academic Success & Social Life', summary:'Finished his Licentiate in Medicine and socialized with Filipino reformists despite financial struggles.', details:'By 1884 Rizal had completed his licentiate and participated in the Filipino intellectual scene in Madrid — toasting fellow artists like Juan Luna — while often relying on loans to survive.', sources:['https://knightsofrizal.be/'] },
-      { id:5, year:1885, date:'1885', place:'Paris', coords: {x:48.5, y:42}, title:'Specializing in Ophthalmology', summary:'Finished his Licentiate in Philosophy and Letters; chose ophthalmology for his mother’s sake.', details:'Rizal decided to specialize in ophthalmology after completing his studies in Madrid, planning advanced training in Paris and Germany to treat his mother’s failing eyesight.', sources:['https://travels-of-rizal.weebly.com/'] },
-      { id:6, year:1886, date:'1886', place:'Heidelberg', coords: {x:52, y:43}, title:'Study with Dr. Otto Becker', summary:'Studied at Heidelberg\'s University Eye Hospital and wrote "A Las Flores de Heidelberg".', details:'Rizal studied ophthalmology under the renowned Dr. Otto Becker in Heidelberg, trained with advanced microscopes, and wrote the poignant poem "A Las Flores de Heidelberg" reflecting his homesickness.', sources:['https://knightsofrizal.be/'] },
-      { id:7, year:1886, date:'Late 1886', place:'Leipzig', coords: {x:55, y:39}, title:'Philosophy & Translations', summary:'Attended philosophy and history lectures; translated German works into Tagalog.', details:'In Leipzig, Rizal deepened his philosophical education, translated Schiller\'s William Tell and Andersen\'s fairy tales into Tagalog, and admired the German educational system.', sources:['https://knightsofrizal.be/'] },
-      { id:8, year:1887, date:'March 1887', place:'Berlin', coords: {x:56, y:37}, title:'Publication of Noli Me Tángere', summary:'Joined scholarly societies and, with funding from Maximo Viola, published "Noli Me Tángere".', details:'In Berlin, Rizal became a member of the Anthropological and Ethnological societies. He completed his first novel, "Noli Me Tángere," which exposed the abuses of Spanish colonial rule and was published in March 1887.', sources:['https://travels-of-rizal.weebly.com/','https://knightsofrizal.be/'] },
-      { id:9, year:1888, date:'May 1888', place:'London', coords: {x:46.5, y:39}, title:'Research at the British Museum', summary:'Researched Antonio de Morga\'s historical accounts of the Philippines and contributed to La Solidaridad.', details:'In London, Rizal spent countless hours at the British Museum annotating Morga\'s Sucesos de las Islas Filipinas. He also published numerous essays in the reformist newspaper La Solidaridad.', sources:['https://knightsofrizal.be/'] },
-      { id:10, year:1889, place:'Paris & Brussels', coords: {x:49.5, y:41}, title:'Writing El Filibusterismo', summary:'Moved between Paris and Brussels while beginning to write his darker sequel, El Filibusterismo.', details:'Rizal moved between Paris and Brussels, continuing his reformist writings for La Solidaridad while developing his second novel, a darker and more revolutionary work.', sources:['https://travels-of-rizal.weebly.com/'] },
-      { id:11, year:1891, date:'Sept 1891', place:'Ghent', coords: {x:49, y:40}, title:'El Filibusterismo Published', summary:'Moved to Ghent for cheaper printing and published El Filibusterismo in September 1891.', details:'To reduce costs, Rizal relocated to Ghent, where he finally completed and published his second novel, El Filibusterismo. He dedicated the book to the memory of the GomBurZa priests.', sources:['https://knightsofrizal.be/'] },
-      { id:12, year:1891, date:'Oct–Nov 1891', place:'Hong Kong', coords: {x:87, y:72}, title:'Leaving Europe for Hong Kong', summary:'Left Europe for Hong Kong, where he opened a medical clinic and was reunited with his family.', details:'In late 1891, Rizal left Europe for Hong Kong, starting a new chapter by opening a successful ophthalmology clinic and continuing his reformist activities from Asia.', sources:['https://travels-of-rizal.weebly.com/'] }
+      { id:1, date:'1882', place:'Spain', coords: {x:46, y:53}, title:'First Arrival in Europe', 
+        details:'May 3, 1882 – Left Manila aboard the Salvadora without informing Spanish authorities, to avoid being blocked.\n\nJune 15, 1882 – Arrived in Barcelona, Spain. Wrote his essay Amor Patrio (Love of Country), his first article published in a Philippine newspaper (Diariong Tagalog).\n\nNovember 1882 – Moved to Madrid and enrolled at the Universidad Central de Madrid.\n• Took Medicine (to cure his mother’s blindness).\n• Took Philosophy and Letters for intellectual training.\n• Met Filipino students and reformists; began joining discussions on liberty and nationalism.', 
+        sources:['https://travels-of-rizal.weebly.com', 'https://philembassymadrid.com'] },
+      { id:2, date:'1883', place:'Madrid', coords: {x:44, y:54}, title:'Student Life in Madrid', 
+        details:'Continued studies; excelled in both academics and arts.\n\nFrequently wrote poetry, essays, and letters home.\n\nBegan short travels during school breaks, including to Paris.\n\nLearned French, expanding his multilingual abilities.', 
+        sources:['https://travels-of-rizal.weebly.com'] },
+      { id:3, date:'1884', place:'Madrid', coords: {x:44.2, y:54.2}, title:'Academic Success', 
+        details:'Finished his Licentiate in Medicine.\n\nAttended gatherings of Filipino reformists in Madrid cafés.\n\nGave a famous toast in honor of Juan Luna (painter of Spoliarium) and Felix Resurrección Hidalgo (painter of Virgenes Cristianas Expuestas al Populacho), praising Filipino talent.\n\nExperienced worsening financial problems—survived on loans from friends.', 
+        sources:['https://knightsofrizal.be'] },
+      { id:4, date:'1885', place:'Madrid', coords: {x:44.4, y:54.4}, title:'Graduation and Decision to Specialize', 
+        details:'Earned his Licentiate in Philosophy and Letters.\n\nDecided to further specialize in ophthalmology, influenced by his mother’s eye illness.\n\nPlanned further studies in Paris and Germany.', 
+        sources:['https://travels-of-rizal.weebly.com'] },
+      { id:5, date:'1885–1886', place:'Paris, France', coords: {x:48.5, y:42}, title:'Ophthalmology Training in Paris', 
+        details:'Lived in Paris, working under Dr. Louis de Wecker, a leading eye specialist.\n\nLearned advanced surgical techniques.\n\nParis was costly, so he endured financial hardship, sometimes skipping meals.\n\nDespite struggles, he explored museums and libraries, strengthening his cultural knowledge.', 
+        sources:['https://travels-of-rizal.weebly.com'] },
+      { id:6, date:'1886', place:'Heidelberg, Germany', coords: {x:52, y:43}, title:'Advanced Studies in Heidelberg', 
+        details:'Transferred to Heidelberg to study at the University Eye Hospital under Dr. Otto Becker.\n\nPracticed ophthalmology and trained with microscopes.\n\nLived a disciplined lifestyle and joined German student life.\n\nWrote the nostalgic poem A Las Flores de Heidelberg, expressing homesickness for the Philippines.', 
+        sources:['https://knightsofrizal.be'] },
+      { id:7, date:'Late 1886', place:'Leipzig, Germany', coords: {x:55, y:39}, title:'Intellectual Pursuits in Leipzig', 
+        details:'Moved to Leipzig, attended philosophy and history lectures.\n\nTranslated German works into Tagalog, strengthening his sense of national identity.\n\nAdmired German efficiency, discipline, and education system.', 
+        sources:['https://knightsofrizal.be'] },
+      { id:8, date:'1886–1887', place:'Berlin, Germany', coords: {x:56, y:37}, title:'Publication of Noli Me Tángere', 
+        details:'Settled in Berlin, where life was cheaper than Paris.\n\nBecame a member of scholarly societies: Anthropological Society and Ethnological Society of Berlin.\n\nMet intellectuals like Dr. Rudolf Virchow (scientist) and Dr. Wilhelm Joest (anthropologist).\n\nLived in poverty—wrote to family about missing meals and wearing old clothes.\n\nMarch 1887 – Published his first novel, Noli Me Tangere, exposing abuses in the Philippines.', 
+        sources:['https://travels-of-rizal.weebly.com', 'https://knightsofrizal.be'] },
+      { id:9, date:'1888', place:'London, England', coords: {x:46.5, y:39}, title:'Historical Research in London', 
+        details:'Arrived in London (May 1888).\n\nResearched at the British Museum; studied Antonio de Morga’s Sucesos de las Islas Filipinas to prove pre-colonial Filipino civilization.\n\nWrote articles for La Solidaridad, the reformist newspaper.\n\nLived with the Beckett family, becoming close to Gertrude Beckett, but avoided romance to stay focused on his mission.', 
+        sources:['https://knightsofrizal.be'] },
+      { id:10, date:'1889–1890', place:'Paris & Brussels', coords: {x:49.5, y:41}, title:'Writing El Filibusterismo', 
+        details:'Returned to Paris, then moved to Brussels because it was cheaper.\n\nContinued contributing essays to La Solidaridad.\n\nBegan and developed his second novel, El Filibusterismo, a darker continuation of Noli Me Tangere.\n\nIn Brussels, he also wrote essays and letters criticizing colonial abuses.', 
+        sources:['https://travels-of-rizal.weebly.com'] },
+      { id:11, date:'1891', place:'Ghent, Belgium', coords: {x:49, y:40}, title:'Publication of El Filibusterismo', 
+        details:'Moved to Ghent to save money on printing costs.\n\nStruggled financially but refused to abandon his book.\n\nWith help from Filipino friends, especially Valentin Ventura, he was able to publish El Filibusterismo in September 1891.\n\nDedicated the book to the martyred priests, GomBurZa (Gómez, Burgos, Zamora).', 
+        sources:['https://knightsofrizal.be'] },
+      { id:12, date:'1891–1892', place:'Hong Kong', coords: {x:87, y:72}, title:'Leaving Europe for Hong Kong', 
+        details:'October–November 1891 – Left Europe for Hong Kong.\n\nOpened a medical clinic and treated patients, including his mother.\n\nReunited with family members in Hong Kong.\n\nThis period marked the end of his 10 years in Europe and the beginning of his final years of reform work in Asia and the Philippines.', 
+        sources:['https://travels-of-rizal.weebly.com'] }
     ];
 
     const svgNS = "http://www.w3.org/2000/svg";
@@ -139,7 +162,8 @@
     let showSources = true;
 
     function drawMap() {
-      const pathData = "M " + events.map(p => `${p.coords.x / 100 * 1000} ${p.coords.y / 100 * 600}`).join(" L ");
+      const pathCoords = [ {x:88, y:80}, ...events.map(e => e.coords)];
+      const pathData = "M " + pathCoords.map(p => `${p.x / 100 * 1000} ${p.y / 100 * 600}`).join(" L ");
       const routePath = document.createElementNS(svgNS, "path");
       routePath.setAttribute('d', pathData);
       routePath.setAttribute('class', 'travel-route');
@@ -178,12 +202,12 @@
       if (!ev) return;
       currentIndex = index;
 
-      dTitle.textContent = ev.title;
+      dTitle.textContent = `(${ev.id}) ${ev.title}`;
       dSub.textContent = `${ev.date} • ${ev.place}`;
       dBody.textContent = ev.details;
 
       if (showSources) {
-        dSources.innerHTML = `Sources:<br>${ev.sources.map(s => `<a href="${s}" target="_blank" rel="noopener">${s}</a>`).join('<br>')}`;
+        dSources.innerHTML = `📖 Sources:<br>${ev.sources.map(s => `<a href="https://${s}" target="_blank" rel="noopener">${s}</a>`).join('<br>')}`;
         dSources.style.display = 'block';
       } else {
         dSources.style.display = 'none';
