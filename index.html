@@ -5,223 +5,217 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>José Rizal — Europe Timeline (1882–1892)</title>
   <style>
-    /* Brown + dark theme variables */
     :root{
-      --bg:#1b1410; /* deep espresso */
-      --panel:#291e18; /* dark brown panel */
-      --muted:#7a5844; /* muted brown */
-      --accent:#c79a6b; /* warm tan */
-      --accent-2:#b06f3a; /* burnt sienna */
+      --bg:#1b1410;
+      --panel:#291e18;
+      --muted:#8a6c5a;
+      --accent:#c79a6b;
+      --accent-2:#e0a76a;
       --text:#f4efe6;
-      --glass: rgba(255,255,255,0.04);
-      --map-grid: rgba(255,255,255,0.02);
-      --node-size: 18px;
+      --shadow: rgba(0,0,0,0.6);
+      --pin-size: 16px;
+      --pin-size-active: 22px;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
-
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#0f0b09);color:var(--text)}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#0f0b09);color:var(--text);overflow: hidden;}
+    .wrap{
+      max-width:1400px;
+      height: 100%;
+      margin:0 auto;
+      padding:24px;
+      display:grid;
+      grid-template-columns:340px 1fr;
+      grid-template-rows: 1fr;
+      gap:24px;
+    }
+    header.card{
+      background:var(--panel);
+      border-radius:14px;
+      padding:20px;
+      box-shadow:0 8px 30px var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+    header h1{margin:0;font-size:22px;letter-spacing:0.3px;color: var(--accent-2);}
+    header p{color:var(--muted);margin-top:8px;font-size:14px;line-height:1.5}
+    .details{flex-grow: 1; overflow-y: auto; margin-top: 16px; padding-right: 10px;}
+    .details h2{margin: 12px 0 4px; font-size: 18px;}
+    .details .meta{color:var(--muted);font-size:13px; margin-bottom: 12px;}
+    .details .body-text{line-height: 1.6; font-size: 15px;}
+    .details .sources{margin-top:16px;font-size:12px;color:var(--muted);border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px;}
+    .details .sources a{color: var(--accent); text-decoration: none;}
+    .details .sources a:hover{text-decoration: underline;}
 
-    /* page layout */
-    .wrap{max-width:1200px;margin:32px auto;padding:28px;display:grid;grid-template-columns:320px 1fr;gap:24px}
+    .controls{display:flex;flex-wrap: wrap; gap:8px;margin:16px 0}
+    .btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);padding:8px 12px;border-radius:8px;color:var(--text);cursor:pointer; font-size: 13px;}
+    .btn:hover{background:rgba(255,255,255,0.1);}
+    .btn.active{background:linear-gradient(90deg,var(--accent) 0%, var(--accent-2) 100%);color:#2b1b14;font-weight:600;border-color: transparent;}
 
-    header.card{background:linear-gradient(180deg,var(--panel), rgba(255,255,255,0.02));border-radius:14px;padding:20px;box-shadow:0 8px 30px rgba(0,0,0,0.6);backdrop-filter: blur(6px)}
-    header h1{margin:0;font-size:20px;letter-spacing:0.3px}
-    header p{color:var(--muted);margin-top:8px;font-size:13px;line-height:1.4}
+    .map-area{
+      position:relative;
+      border-radius:14px;
+      height: 100%;
+      box-shadow:0 8px 30px var(--shadow);
+      background-color: #0f0b09;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600"><path d="M499.9 599.9C223.8 599.9 0 465.6 0 299.9S223.8 0 499.9 0s500 134.3 500 299.9-223.9 300-500 300z" fill-opacity=".02" fill="%23fff"/><path d="M499.9 545.4C251.4 545.4 45.4 435.9 45.4 299.9S251.4 54.4 499.9 54.4s454.5 109.5 454.5 245.5-206 245.5-454.5 245.5z" fill-opacity=".02" fill="%23fff"/><path d="M499.9 490.9c-223.3 0-403.4-90-403.4-200.9S276.6 89.1 499.9 89.1s403.4 90 403.4 200.9-180.1 200.9-403.4 200.9z" fill-opacity=".02" fill="%23fff"/><path d="M499.9 436.4C302 436.4 140.9 376.1 140.9 300S302 163.6 499.9 163.6s359.1 60.3 359.1 136.4-261.2 136.4-359.1 136.4z" fill-opacity=".02" fill="%23fff"/><g fill="none" stroke="%23fff" stroke-opacity=".05"><path d="M500 0v600M0 300h1000M140.9 163.6C205.2 108 340 54.4 500 54.4s294.8 53.6 359.1 109.2"/><path d="M45.4 54.4C136.6 15.7 304.7 0 500 0s363.4 15.7 454.6 54.4M45.4 545.6c91.2 38.7 259.3 54.4 454.6 54.4s363.4-15.7 454.6-54.4M140.9 436.4c64.3 55.6 199.1 109.2 359.1 109.2s294.8-53.6 359.1-109.2"/></g></svg>');
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+    .map-svg{position: absolute; inset: 0; width: 100%; height: 100%;}
+    .travel-route{stroke: var(--muted); stroke-width: 2px; fill: none; stroke-dasharray: 4; animation: dash 20s linear infinite;}
+    @keyframes dash {to {stroke-dashoffset: -100;}}
+    .pin{cursor: pointer; transition: all 0.3s ease;}
+    .pin-circle{fill: var(--accent-2); r: calc(var(--pin-size) / 2);}
+    .pin-pulse{fill: var(--accent-2); opacity: 0.2; r: calc(var(--pin-size) / 2); animation: pulse 2s infinite;}
+    @keyframes pulse {0% {transform: scale(0.9); opacity: 0.2;} 70% {transform: scale(2.5); opacity: 0;} 100% {transform: scale(2.5); opacity: 0;}}
+    .pin.active .pin-circle{fill: var(--accent); r: calc(var(--pin-size-active) / 2); filter: drop-shadow(0 0 8px var(--accent));}
+    .pin.active .pin-pulse{display: none;}
+    .pin-year{fill: var(--text); font-size: 9px; font-weight: bold; text-anchor: middle; alignment-baseline: central; pointer-events: none;}
+    footer{grid-column:1 / -1;color:var(--muted);font-size:12px;text-align:center;padding:16px 0;}
 
-    /* map-area */
-    .map-area{position:relative;background-image:
-      radial-gradient(circle at 15% 20%, rgba(255,255,255,0.02) 0 1px, transparent 2px),
-      linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px),
-      linear-gradient(180deg, rgba(255,255,255,0.01) 1px, transparent 1px);
-    background-size: 120px 120px, 30px 30px, 30px 30px;
-    border-radius:14px;padding:18px;min-height:720px;overflow:auto; /* Changed overflow to auto */ }
-
-    /* subtle map texture */
-    .map-area:after{content:"";position:absolute;inset:0;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><path d="M10 300 C 150 120, 350 120, 490 300 S 830 480, 990 300" stroke="%23ffffff" stroke-opacity="0.02" fill="none" stroke-width="1"/></svg>');mix-blend-mode:overlay;opacity:0.6;pointer-events:none;}
-
-    /* timeline center line like a travel route */
-    .route{position:absolute;left:50%;top:20px;bottom:20px;width:4px;margin-left:-2px;background:linear-gradient(#5c432d,#2b1b14);border-radius:6px;box-shadow:0 0 20px rgba(0,0,0,0.6)}
-
-    /* nodes */
-    .node{position:absolute;transform:translateX(-50%);width:360px;padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer;transition:transform .36s cubic-bezier(.22,.9,.3,1), box-shadow .25s}
-    .node:hover{transform:translateX(-50%) translateY(-6px) scale(1.02);box-shadow:0 20px 50px rgba(0,0,0,0.6)}
-
-    .node .pin{position:absolute;left:-56px;top:14px;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);box-shadow:0 6px 18px rgba(176,111,58,0.25);font-weight:700}
-    .node .date{font-size:12px;color:var(--muted);margin-bottom:8px}
-    .node h3{margin:0;font-size:16px}
-    .node p{margin:8px 0 0;font-size:14px;color:var(--text);line-height:1.35}
-    .node .sources{margin-top:10px;font-size:12px;color:var(--muted)}
-
-    /* left/right positioning (FIXED) */
-    .node.left{left:38%}
-    .node.right{left:62%}
-
-    /* small map pins on center route */
-    .route-pin{position:absolute;left:50%;width:var(--node-size);height:var(--node-size);margin-left:calc(var(--node-size) / -2);border-radius:50%;background:var(--accent-2);box-shadow:0 6px 14px rgba(176,111,58,0.25);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;cursor:pointer;}
-
-    /* details panel */
-    .details{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;height:720px;overflow:auto}
-    .details h2{margin-top:0}
-    .meta{color:var(--muted);font-size:13px}
-    .controls{display:flex;gap:8px;margin:12px 0}
-    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.03);padding:8px 10px;border-radius:8px;color:var(--text);cursor:pointer}
-    .btn.active{background:linear-gradient(90deg,var(--accent) 0%, var(--accent-2) 100%);color:#2b1b14;font-weight:600;border:none}
-
-    /* small responsiveness */
-    @media (max-width:900px){.wrap{grid-template-columns:1fr;padding:18px}.map-area{min-height:880px}.node{width:86%;left:50%}.node.left,.node.right{left:50%;transform:translateX(-50%)}}
-
-    /* subtle entrance animations */
-    .node{opacity:0;transform-origin:center;animation:pop .7s forwards}
-    @keyframes pop{from{opacity:0;transform:translateX(-50%) translateY(12px) scale(.98)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
-
-    footer{grid-column:1 / -1;color:var(--muted);font-size:13px;text-align:center;margin-top:14px}
+    @media (max-width:900px){
+      body{overflow: auto;}
+      .wrap{grid-template-columns:1fr; grid-template-rows: auto 1fr; padding: 12px; height: auto;}
+      .map-area{min-height: 50vh;}
+      header.card{height: auto;}
+      .details{margin-top: 0; height: 300px; padding-right: 5px;}
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header class="card">
-      <h1>José Rizal — Europe Timeline (1882–1892)</h1>
-      <p>A map-style, interactive timeline following Rizal's ten years in Europe. Click any pin on the route to read dates, places, and excerpts. Nodes include sources and micro-stories.</p>
-      <div style="margin-top:12px" class="meta">Theme: brown / dark • Interactive nodes • Smooth transitions</div>
-      <div style="margin-top:14px" class="controls">
-        <button class="btn" id="first">First</button>
-        <button class="btn" id="prev">‹ Prev</button>
-        <button class="btn" id="next">Next ›</button>
-        <button class="btn" id="last">Last</button>
-        <button class="btn" id="toggle-sources">Toggle sources</button>
+      <div>
+        <h1>José Rizal — Europe Timeline</h1>
+        <p>An interactive map of Rizal's ten-year journey (1882–1892), from his departure from Manila to his pivotal years in Europe. Click any pin to explore events.</p>
+        <div class="controls">
+          <button class="btn" id="first">First</button>
+          <button class="btn" id="prev">‹ Prev</button>
+          <button class="btn" id="next">Next ›</button>
+          <button class="btn" id="last">Last</button>
+          <button class="btn" id="toggle-sources">Toggle Sources</button>
+        </div>
       </div>
-      <div style="margin-top:10px;color:var(--muted);font-size:13px">Tip: use arrow keys ← → to move between events</div>
-    </header>
-
-    <main class="map-area" id="map">
-      <div class="route" aria-hidden="true"></div>
       <div class="details" id="details">
         <h2 id="d-title">Select an event</h2>
         <div class="meta" id="d-sub"></div>
-        <p id="d-body" style="margin-top:10px;color:var(--text);line-height:1.45">Click any pin on the central route to view the details here. The timeline covers Rizal's studies, publications, travels, and key milestones between 1882 and 1892.</p>
-        <div id="d-sources" style="margin-top:12px;color:var(--muted);font-size:13px"></div>
+        <p class="body-text" id="d-body">Click any numbered pin on the map to view the details here. The timeline covers Rizal's studies, publications, and key milestones.</p>
+        <div class="sources" id="d-sources"></div>
       </div>
+    </header>
+
+    <main class="map-area" id="map">
+        <svg class="map-svg" id="map-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet"></svg>
     </main>
 
-    <footer>Built with ❤️ • Timeline data: travels-of-rizal.weebly.com, philembassymadrid.com, knightsofrizal.be</footer>
   </div>
 
   <script>
     const events = [
-      { id:1, year:1882, date:'May 3, 1882', place:'Left Manila (Salvadora)', title:'Departure from Manila', summary:'Left Manila aboard the Salvadora without informing Spanish authorities to avoid being blocked.', details:'Rizal departed secretly on May 3, 1882, bound for Spain. His departure marked the beginning of his decade-long European journey focused on education, medical specialization, and reform writing.', sources:['https://travels-of-rizal.weebly.com/','https://philembassymadrid.com/rizals-madrid'] },
-      { id:2, year:1882, date:'June 15, 1882', place:'Barcelona → Madrid', title:'Arrival in Barcelona; Amor Patrio', summary:'Arrived in Barcelona; wrote "Amor Patrio", first article published in Diariong Tagalog.', details:'On June 15 Rizal reached Barcelona and soon after moved to Madrid where he enrolled at Universidad Central. He wrote the patriotic essay "Amor Patrio" and began connecting with Filipino reformists.', sources:['https://travels-of-rizal.weebly.com/'] },
-      { id:3, year:1883, date:'1883', place:'Madrid', title:'Student life in Madrid', summary:'Continued studies; wrote poetry, learned French, started short travels.', details:'Rizal studied medicine and philosophy and letters, wrote essays and poems, and expanded his language skills — including French — taking short trips during breaks to Paris.', sources:['https://travels-of-rizal.weebly.com/'] },
-      { id:4, year:1884, date:'1884', place:'Madrid', title:'Academic success & social life', summary:'Finished Licentiate in Medicine; socialized with Filipino reformists; financial struggles.', details:'By 1884 Rizal had completed his licentiate and participated in the Filipino intellectual scene in Madrid — toasting fellow artists like Juan Luna — while often relying on loans to survive.', sources:['https://knightsofrizal.be/'] },
-      { id:5, year:1885, date:'1885', place:'Paris', title:'Decision to specialize (Ophthalmology)', summary:'Finished Licentiate in Philosophy and Letters; chose ophthalmology for his mother’s sake; prepared for studies in Paris and Germany.', details:'Rizal decided to specialize in ophthalmology after completing studies in Madrid, planning advanced studies in Paris and Germany to treat his mother’s eye condition.', sources:['https://travels-of-rizal.weebly.com/'] },
-      { id:6, year:1885, date:'1885–1886', place:'Paris', title:'Training under Dr. de Wecker', summary:'Worked under Dr. Louis de Wecker; learned surgical techniques; faced financial hardship.', details:'While in Paris Rizal trained with the famous oculist Louis de Wecker. Life in Paris was expensive and he often endured hardship while studying museums and libraries to broaden his cultural knowledge.', sources:['https://travels-of-rizal.weebly.com/'] },
-      { id:7, year:1886, date:'1886', place:'Heidelberg', title:'Heidelberg — study with Dr. Otto Becker', summary:'Studied at Heidelberg\'s University Eye Hospital; wrote "A Las Flores de Heidelberg".', details:'Rizal studied ophthalmology under Dr. Otto Becker in Heidelberg, trained with microscopes and wrote the poem "A Las Flores de Heidelberg" reflecting his homesickness.', sources:['https://knightsofrizal.be/'] },
-      { id:8, year:1886, date:'Late 1886', place:'Leipzig', title:'Leipzig — philosophy & translations', summary:'Attended philosophy and history lectures; translated German works into Tagalog.', details:'In Leipzig Rizal deepened his philosophical education, translated German texts into Tagalog, and admired the German educational system.', sources:['https://knightsofrizal.be/'] },
-      { id:9, year:1886, date:'1886–1887', place:'Berlin', title:'Berlin — research & Noli Me Tangere', summary:'Joined scholarly societies; published "Noli Me Tangere" (Mar 1887).', details:'Rizal joined Berlin\'s Anthropological and Ethnological societies and completed his first novel "Noli Me Tangere" (published March 1887), which exposed abuses in the colony.', sources:['https://travels-of-rizal.weebly.com/','https://knightsofrizal.be/'] },
-      { id:10, year:1888, date:'May 1888', place:'London', title:'London — British Museum research', summary:'Researched Antonio de Morga at the British Museum; contributed to La Solidaridad.', details:'In London Rizal studied at the British Museum and published essays in La Solidaridad while living briefly with the Beckett family.', sources:['https://knightsofrizal.be/'] },
-      { id:11, year:1889, date:'1889–1890', place:'Paris & Brussels', title:'Paris & Brussels — El Filibusterismo (begin)', summary:'Returned to Paris then Brussels; began the darker sequel El Filibusterismo.', details:'Rizal moved between Paris and Brussels, developing his second novel and continuing his reformist writings for La Solidaridad.', sources:['https://travels-of-rizal.weebly.com/'] },
-      { id:12, year:1891, date:'Sept 1891', place:'Ghent', title:'Ghent — El Filibusterismo published', summary:'Moved to Ghent to economize; published El Filibusterismo in September 1891.', details:'Rizal relocated to Ghent to reduce costs and completed and published El Filibusterismo in September 1891. He dedicated the book to GomBurZa.', sources:['https://knightsofrizal.be/'] },
-      { id:13, year:1891, date:'Oct–Nov 1891', place:'Departure to Hong Kong', title:'Leaving Europe (to Hong Kong)', summary:'Left Europe for Hong Kong where he opened a clinic and reunited with family.', details:'In late 1891 Rizal left Europe for Hong Kong, starting a new chapter by opening a medical clinic and continuing his reformist activities in Asia.', sources:['https://travels-of-rizal.weebly.com/'] }
+      { id:1, year:1882, date:'May 3, 1882', place:'Manila', coords: {x:88, y:80}, title:'Departure from Manila', summary:'Left Manila aboard the Salvadora, keeping his departure secret from Spanish authorities.', details:'Rizal departed secretly on May 3, 1882, bound for Spain. This marked the beginning of his decade-long European journey focused on education, medical specialization, and reform writing.', sources:['https://travels-of-rizal.weebly.com/','https://philembassymadrid.com/rizals-madrid'] },
+      { id:2, year:1882, date:'June 15, 1882', place:'Barcelona', coords: {x:48, y:52}, title:'Arrival in Barcelona; Amor Patrio', summary:'Arrived in Barcelona; wrote "Amor Patrio", his first article published in Diariong Tagalog.', details:'On June 15, Rizal reached Barcelona and soon after moved to Madrid to enroll at Universidad Central. He wrote the patriotic essay "Amor Patrio" and began connecting with Filipino reformists.', sources:['https://travels-of-rizal.weebly.com/'] },
+      { id:3, year:1883, date:'1883', place:'Madrid', coords: {x:44, y:54}, title:'Student life in Madrid', summary:'Continued studies in Medicine and Philosophy, learned French, and took short trips to Paris.', details:'Rizal studied medicine and philosophy and letters, wrote essays and poems, and expanded his language skills — including French — taking short trips during breaks to Paris.', sources:['https://travels-of-rizal.weebly.com/'] },
+      { id:4, year:1884, date:'1884', place:'Madrid', coords: {x:44.2, y:54.2}, title:'Academic Success & Social Life', summary:'Finished his Licentiate in Medicine and socialized with Filipino reformists despite financial struggles.', details:'By 1884 Rizal had completed his licentiate and participated in the Filipino intellectual scene in Madrid — toasting fellow artists like Juan Luna — while often relying on loans to survive.', sources:['https://knightsofrizal.be/'] },
+      { id:5, year:1885, date:'1885', place:'Paris', coords: {x:48.5, y:42}, title:'Specializing in Ophthalmology', summary:'Finished his Licentiate in Philosophy and Letters; chose ophthalmology for his mother’s sake.', details:'Rizal decided to specialize in ophthalmology after completing his studies in Madrid, planning advanced training in Paris and Germany to treat his mother’s failing eyesight.', sources:['https://travels-of-rizal.weebly.com/'] },
+      { id:6, year:1886, date:'1886', place:'Heidelberg', coords: {x:52, y:43}, title:'Study with Dr. Otto Becker', summary:'Studied at Heidelberg\'s University Eye Hospital and wrote "A Las Flores de Heidelberg".', details:'Rizal studied ophthalmology under the renowned Dr. Otto Becker in Heidelberg, trained with advanced microscopes, and wrote the poignant poem "A Las Flores de Heidelberg" reflecting his homesickness.', sources:['https://knightsofrizal.be/'] },
+      { id:7, year:1886, date:'Late 1886', place:'Leipzig', coords: {x:55, y:39}, title:'Philosophy & Translations', summary:'Attended philosophy and history lectures; translated German works into Tagalog.', details:'In Leipzig, Rizal deepened his philosophical education, translated Schiller\'s William Tell and Andersen\'s fairy tales into Tagalog, and admired the German educational system.', sources:['https://knightsofrizal.be/'] },
+      { id:8, year:1887, date:'March 1887', place:'Berlin', coords: {x:56, y:37}, title:'Publication of Noli Me Tángere', summary:'Joined scholarly societies and, with funding from Maximo Viola, published "Noli Me Tángere".', details:'In Berlin, Rizal became a member of the Anthropological and Ethnological societies. He completed his first novel, "Noli Me Tángere," which exposed the abuses of Spanish colonial rule and was published in March 1887.', sources:['https://travels-of-rizal.weebly.com/','https://knightsofrizal.be/'] },
+      { id:9, year:1888, date:'May 1888', place:'London', coords: {x:46.5, y:39}, title:'Research at the British Museum', summary:'Researched Antonio de Morga\'s historical accounts of the Philippines and contributed to La Solidaridad.', details:'In London, Rizal spent countless hours at the British Museum annotating Morga\'s Sucesos de las Islas Filipinas. He also published numerous essays in the reformist newspaper La Solidaridad.', sources:['https://knightsofrizal.be/'] },
+      { id:10, year:1889, place:'Paris & Brussels', coords: {x:49.5, y:41}, title:'Writing El Filibusterismo', summary:'Moved between Paris and Brussels while beginning to write his darker sequel, El Filibusterismo.', details:'Rizal moved between Paris and Brussels, continuing his reformist writings for La Solidaridad while developing his second novel, a darker and more revolutionary work.', sources:['https://travels-of-rizal.weebly.com/'] },
+      { id:11, year:1891, date:'Sept 1891', place:'Ghent', coords: {x:49, y:40}, title:'El Filibusterismo Published', summary:'Moved to Ghent for cheaper printing and published El Filibusterismo in September 1891.', details:'To reduce costs, Rizal relocated to Ghent, where he finally completed and published his second novel, El Filibusterismo. He dedicated the book to the memory of the GomBurZa priests.', sources:['https://knightsofrizal.be/'] },
+      { id:12, year:1891, date:'Oct–Nov 1891', place:'Hong Kong', coords: {x:87, y:72}, title:'Leaving Europe for Hong Kong', summary:'Left Europe for Hong Kong, where he opened a medical clinic and was reunited with his family.', details:'In late 1891, Rizal left Europe for Hong Kong, starting a new chapter by opening a successful ophthalmology clinic and continuing his reformist activities from Asia.', sources:['https://travels-of-rizal.weebly.com/'] }
     ];
 
-    const map = document.getElementById('map');
+    const svgNS = "http://www.w3.org/2000/svg";
+    const mapSvg = document.getElementById('map-svg');
     const dTitle = document.getElementById('d-title');
     const dSub = document.getElementById('d-sub');
     const dBody = document.getElementById('d-body');
     const dSources = document.getElementById('d-sources');
-
-    let showSources = true;
+    
     let currentIndex = 0;
+    let showSources = true;
 
-    function createNode(ev, idx, total){
-      const wrap = document.createElement('div');
-      wrap.className = 'node ' + (idx % 2 === 0 ? 'left' : 'right');
-      const t = 8 + (idx/(total-1))*84;
-      wrap.style.top = t + '%';
-      wrap.style.animationDelay = `${idx * 80}ms`;
+    function drawMap() {
+      const pathData = "M " + events.map(p => `${p.coords.x / 100 * 1000} ${p.coords.y / 100 * 600}`).join(" L ");
+      const routePath = document.createElementNS(svgNS, "path");
+      routePath.setAttribute('d', pathData);
+      routePath.setAttribute('class', 'travel-route');
+      mapSvg.appendChild(routePath);
+      
+      events.forEach((event, i) => {
+        const x = event.coords.x / 100 * 1000;
+        const y = event.coords.y / 100 * 600;
 
-      wrap.innerHTML = `
-        <div class="pin">${ev.year}</div>
-        <div class="date">${ev.date} • ${ev.place}</div>
-        <h3>${ev.title}</h3>
-        <p>${ev.summary}</p>
-        <div class="sources" style="display:${showSources ? 'block':'none'}">Sources: ${ev.sources.map(s=>`<a href="${s}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline">${shortDomain(s)}</a>`).join(' • ')}</div>
-      `;
+        const pinGroup = document.createElementNS(svgNS, 'g');
+        pinGroup.setAttribute('class', 'pin');
+        pinGroup.setAttribute('transform', `translate(${x}, ${y})`);
+        pinGroup.dataset.index = i;
 
-      const centerPin = document.createElement('div');
-      centerPin.className='route-pin';
-      centerPin.style.top = `calc(${t}% + 18px)`; // Adjusted pin position
-      centerPin.dataset.index = idx;
-      centerPin.title = ev.title;
+        const pulseCircle = document.createElementNS(svgNS, 'circle');
+        pulseCircle.setAttribute('class', 'pin-pulse');
+        
+        const mainCircle = document.createElementNS(svgNS, 'circle');
+        mainCircle.setAttribute('class', 'pin-circle');
+        
+        const yearText = document.createElementNS(svgNS, 'text');
+        yearText.setAttribute('class', 'pin-year');
+        yearText.textContent = event.id;
 
-      wrap.addEventListener('click', ()=> selectEvent(idx));
-      centerPin.addEventListener('click', ()=> selectEvent(idx));
-
-      map.appendChild(wrap);
-      map.appendChild(centerPin);
+        pinGroup.appendChild(pulseCircle);
+        pinGroup.appendChild(mainCircle);
+        pinGroup.appendChild(yearText);
+        
+        pinGroup.addEventListener('click', () => selectEvent(i));
+        mapSvg.appendChild(pinGroup);
+      });
     }
 
-    function shortDomain(url){try{const u=new URL(url);return u.hostname.replace('www.','')}catch(e){return url}}
-
-    events.forEach((e,i)=>createNode(e,i,events.length));
-
-    function selectEvent(i){
-      const ev = events[i];
-      if(!ev) return;
-      currentIndex = i;
+    function selectEvent(index) {
+      const ev = events[index];
+      if (!ev) return;
+      currentIndex = index;
 
       dTitle.textContent = ev.title;
       dSub.textContent = `${ev.date} • ${ev.place}`;
       dBody.textContent = ev.details;
-      dSources.innerHTML = showSources ? `Sources: ${ev.sources.map(s=>`<a href="${s}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline">${s}</a>`).join('<br>')}` : '';
 
-      document.querySelectorAll('.route-pin').forEach((p, p_idx) => {
-        p.style.transform = (p_idx === i) ? 'scale(1.3)' : 'scale(1)';
-        p.style.background = (p_idx === i) ? 'var(--accent)' : 'var(--accent-2)';
-      });
-
-      const currentPin = document.querySelector(`.route-pin[data-index='${i}']`);
-      if(currentPin){
-          const rect = currentPin.getBoundingClientRect();
-          const mapRect = map.getBoundingClientRect();
-          const offset = rect.top - mapRect.top - (mapRect.height/2) + (rect.height/2);
-          map.scrollTo({top: map.scrollTop + offset, behavior:'smooth'});
+      if (showSources) {
+        dSources.innerHTML = `Sources:<br>${ev.sources.map(s => `<a href="${s}" target="_blank" rel="noopener">${s}</a>`).join('<br>')}`;
+        dSources.style.display = 'block';
+      } else {
+        dSources.style.display = 'none';
       }
+
+      document.querySelectorAll('.pin').forEach((pin) => {
+        pin.classList.toggle('active', pin.dataset.index == index);
+      });
     }
 
-    document.getElementById('next').addEventListener('click', ()=> selectEvent(Math.min(events.length-1, currentIndex+1)));
-    document.getElementById('prev').addEventListener('click', ()=> selectEvent(Math.max(0, currentIndex-1)));
-    document.getElementById('first').addEventListener('click', ()=> selectEvent(0));
-    document.getElementById('last').addEventListener('click', ()=> selectEvent(events.length-1));
-
-    // CORRECTED: Toggle sources logic
-    document.getElementById('toggle-sources').addEventListener('click', (e)=>{
+    function toggleSources() {
       showSources = !showSources;
-      document.querySelectorAll('.node .sources').forEach(el=> el.style.display = showSources ? 'block' : 'none');
-      e.currentTarget.classList.toggle('active', showSources);
-      // Re-render the details panel to reflect the change
+      document.getElementById('toggle-sources').classList.toggle('active', showSources);
       selectEvent(currentIndex);
-    });
-
-    window.addEventListener('keydown', (ev)=>{
+    }
+    
+    document.getElementById('next').addEventListener('click', () => selectEvent((currentIndex + 1) % events.length));
+    document.getElementById('prev').addEventListener('click', () => selectEvent((currentIndex - 1 + events.length) % events.length));
+    document.getElementById('first').addEventListener('click', () => selectEvent(0));
+    document.getElementById('last').addEventListener('click', () => selectEvent(events.length - 1));
+    document.getElementById('toggle-sources').addEventListener('click', toggleSources);
+    
+    window.addEventListener('keydown', (ev) => {
       if(ev.key === 'ArrowRight') document.getElementById('next').click();
       if(ev.key === 'ArrowLeft') document.getElementById('prev').click();
     });
-    
-    // CORRECTED: Set initial state for toggle button
-    document.getElementById('toggle-sources').classList.toggle('active', showSources);
-    selectEvent(0);
 
-    document.querySelectorAll('.route-pin').forEach((pin, i)=>{pin.tabIndex = 0; pin.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') selectEvent(i) })});
-
-    function adaptDetails(){
-      const detailsEl = document.getElementById('details');
-      if(window.innerWidth < 900){ detailsEl.style.height = '360px'; }
-      else detailsEl.style.height = '720px';
-    }
-    window.addEventListener('resize', adaptDetails);
-    adaptDetails();
-
+    document.addEventListener('DOMContentLoaded', () => {
+      drawMap();
+      document.getElementById('toggle-sources').classList.toggle('active', showSources);
+      selectEvent(0);
+    });
   </script>
 </body>
 </html>
